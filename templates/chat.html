@@ -42,8 +42,8 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    $("#chatbox").append("<p class='user'><strong>User:</strong> " + data.user_input + "</p>");
-                    $("#chatbox").append("<p class='bot'><strong>Bot:</strong> " + data.bot_response + "</p>");
+                    $("#chatbox").append("<p class='user'><strong>You:</strong> " + data.user_input + "</p>");
+                    $("#chatbox").append("<p class='bot'><strong>Jeffrika:</strong> " + data.bot_response + "</p>");
                     $("#user-input").val("");
                     $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
                     $("#loading").hide();  // Hide the loading indicator
