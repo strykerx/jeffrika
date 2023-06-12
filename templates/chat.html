@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot</title>
+    <style>
+        #chatbox {
+            height: 300px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            overflow-y: scroll;
+        }
+        .user {
+            color: blue;
+        }
+        .bot {
+            color: green;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div id="chatbox"></div>
+    <div id="loading" style="display: none;">...</div>
+    <form id="chat-form">
+        
+        <input type="text" id="user-input" required>
+        <input type="submit" value="Send">
+    </form>
+    <script>
+        $(document).ready(function() {
+            $("#chat-form").submit(function(e) {
+                e.preventDefault();
+                var user_input = $("#user-input").val();
+                $("#loading").show();  // Show the loading indicator
+                fetch('/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'user_input=' + encodeURIComponent(user_input),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    $("#chatbox").append("<p class='user'><strong>User:</strong> " + data.user_input + "</p>");
+                    $("#chatbox").append("<p class='bot'><strong>Bot:</strong> " + data.bot_response + "</p>");
+                    $("#user-input").val("");
+                    $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+                    $("#loading").hide();  // Hide the loading indicator
+                });
+            });
+        });
+    </script>
+    
+    
+    
+    
+    
+</body>
+</html>
