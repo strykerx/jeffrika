@@ -5,7 +5,9 @@ import os
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 logging.getLogger().addHandler(logging.StreamHandler(stream=sys.stdout))
 #Creating a Pinecone Index
-import pinecone
+from dotenv import load_dotenv
+load_dotenv()
+
 api_key = os.environ["PINECONE_API_KEY"]
 pinecone.init(api_key=api_key, environment="eu-west1-gcp")
 # dimensions are for text-embedding-ada-002

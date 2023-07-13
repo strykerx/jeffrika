@@ -34,9 +34,11 @@ class Chatbot:
         with open(filename, 'w') as f:
             json.dump(self.chat_history, f)
 
-openai_api_key = os.getenv("OPENAI_API_KEY")
+from dotenv import load_dotenv
+load_dotenv()
 
-discord_token = os.getenv("DISCORD_TOKEN")
+openai_api_key = os.environ["OPENAI_API_KEY"]
+discord_token = os.environ["DISCORD_TOKEN"]
 channel_ids = [1116445804064931892, 1116451805954576464, 1116453224203944016, 1116453259108954112, 1116453318932316241, 1116453374204858570, 1116453444828549131, 1118360015850450954, 1118566038431342642]  # Replace with your channel_id
 
 documents_simple_dir = SimpleDirectoryReader('./data').load_data()

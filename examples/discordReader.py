@@ -8,8 +8,10 @@ import nest_asyncio
 nest_asyncio.apply()
 from llama_index import ListIndex, DiscordReader
 from IPython.display import Markdown, display
-import os
-discord_token = os.getenv("DISCORD_TOKEN")
+from dotenv import load_dotenv
+load_dotenv()
+
+discord_token = os.environ["DISCORD_TOKEN"]
 channel_ids = [1057178784895348746]  # Replace with your channel_id
 documents = DiscordReader(discord_token=discord_token).load_data(
     channel_ids=channel_ids
