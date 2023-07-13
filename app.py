@@ -48,7 +48,7 @@ documents_simple_dir = SimpleDirectoryReader('./data').load_data()
 documents_discord = DiscordReader(discord_token=discord_token).load_data(channel_ids=channel_ids)
 #print(documents_discord)
 
-node_parser = SimpleNodeParser.from_defaults(chunk_size=1024, chunk_overlap=20)
+node_parser = SimpleNodeParser.from_defaults(chunk_size=1024, chunk_overlap=96)
 nodes = node_parser.get_nodes_from_documents((documents_simple_dir + documents_discord), show_progress=False)
 service_context = ServiceContext.from_defaults(node_parser=node_parser)
 
