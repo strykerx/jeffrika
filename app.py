@@ -1,6 +1,7 @@
 import os
-from llama_index import SimpleDirectoryReader, GPTVectorStoreIndex, DiscordReader
+from llama_index import SimpleDirectoryReader, GPTVectorStoreIndex, DiscordReader, ServiceContext
 from flask import Flask, request, render_template
+from llama_index.node_parser import SimpleNodeParser
 import openai
 import json
 from flask import jsonify
@@ -45,10 +46,15 @@ channel_ids = [1116445804064931892, 1116451805954576464, 1116453224203944016, 11
 
 documents_simple_dir = SimpleDirectoryReader('./data').load_data()
 documents_discord = DiscordReader(discord_token=discord_token).load_data(channel_ids=channel_ids)
+#print(documents_discord)
+
+node_parser = SimpleNodeParser.from_defaults(chunk_size=1024, chunk_overlap=20)
+nodes = node_parser.get_nodes_from_documents((documents_simple_dir + documents_discord), show_progress=False)
+service_context = ServiceContext.from_defaults(node_parser=node_parser)
 
 documents = documents_discord + documents_simple_dir
 
-index = GPTVectorStoreIndex.from_documents(documents)
+index = GPTVectorStoreIndex.from_documents(documents, service_context=service_context)
 
 # Swap out your index below for whatever knowledge base you want
 bot = Chatbot(openai_api_key, index=index)
