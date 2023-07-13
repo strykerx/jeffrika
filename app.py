@@ -1,5 +1,5 @@
 import os
-from llama_index import SimpleDirectoryReader, GPTVectorStoreIndex
+from llama_index import SimpleDirectoryReader, GPTVectorStoreIndex, DiscordReader
 from flask import Flask, request, render_template
 import openai
 import json
@@ -36,7 +36,13 @@ class Chatbot:
 
 openai_api_key = os.getenv("OPENAI_API_KEY")
 
-documents = SimpleDirectoryReader('./data').load_data()
+discord_token = os.getenv("DISCORD_TOKEN")
+channel_ids = [1116445804064931892, 1116451805954576464, 1116453224203944016, 1116453259108954112, 1116453318932316241, 1116453374204858570, 1116453444828549131, 1118360015850450954, 1118566038431342642]  # Replace with your channel_id
+
+documents_simple_dir = SimpleDirectoryReader('./data').load_data()
+documents_discord = DiscordReader(discord_token=discord_token).load_data(channel_ids=channel_ids)
+
+documents = documents_discord + documents_simple_dir
 
 index = GPTVectorStoreIndex.from_documents(documents)
 
