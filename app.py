@@ -4,8 +4,10 @@ from flask import Flask, request, render_template
 import openai
 import json
 from flask import jsonify
+from dotenv import load_dotenv
 
 app = Flask(__name__)
+load_dotenv()
 
 class Chatbot:
     def __init__(self, api_key, index):
@@ -34,8 +36,8 @@ class Chatbot:
         with open(filename, 'w') as f:
             json.dump(self.chat_history, f)
 
-from dotenv import load_dotenv
-load_dotenv()
+
+
 
 openai_api_key = os.environ["OPENAI_API_KEY"]
 discord_token = os.environ["DISCORD_TOKEN"]
